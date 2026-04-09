@@ -1,6 +1,6 @@
 # NASA FIRMS Connector
 
-NASA FIRMS satellite fire hotspot data for Portugal (VIIRS S-NPP + MODIS).
+Satellite fire hotspot data from NASA's FIRMS (Fire Information for Resource Management System).
 
 ## Data Sources
 
@@ -11,9 +11,10 @@ NASA FIRMS satellite fire hotspot data for Portugal (VIIRS S-NPP + MODIS).
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/nasafirms/hotspots` | List hotspots, supports `?days=1-7`, `?source=VIIRS_SNPP|MODIS`, `?limit=100` |
-| GET | `/nasafirms/hotspots/count` | Total count in DB |
+| GET | `/nasafirms/hotspots` | List fire hotspots (supports `?days=1-7`, `?source=VIIRS_SNPP\|MODIS`, `?limit=100`) |
+| GET | `/nasafirms/hotspots/count` | Total count in database |
 | GET | `/nasafirms/sources` | Available data sources |
+| GET | `/nasafirms/stats` | Aggregated statistics |
 | GET | `/health` | Health check |
 | GET | `/meta` | Service metadata |
 
@@ -24,13 +25,13 @@ npm install
 npm start
 ```
 
-## Environment
+## Environment Variables
 
-| Variable | Default |
-|----------|---------|
-| `PORT` | `3012` |
-| `MONGO_URI` | `mongodb://localhost:27017/nasafirms` |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | `3010` | Server port |
+| `NODE_ENV` | `production` | Environment |
 
-## Sync
+## License
 
-Data syncs every 30 minutes, keeping the last 7 days of hotspots in the database.
+MIT
