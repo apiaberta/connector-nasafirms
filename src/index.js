@@ -37,6 +37,17 @@ await app.register(swaggerUi, { routePrefix: '/docs' })
 
 app.get('/swagger', async () => app.swagger())
 
+// ─── Gateway proxy redirects ───────────────────────────────────────────────────
+
+// The gateway strips /v1 and proxies /nasafirms/* → localhost:3012/nasafirms/*
+// But swagger is at /docs (root), so redirect /nasafirms/docs → /docs
+app.get('/nasafirms/docs', { schema: { hide: true } }, async (req, reply) => {
+  return reply.redirect('/docs')
+})
+app.get('/nasafirms/swagger', { schema: { hide: true } }, async (req, reply) => {
+  return reply.redirect('/swagger')
+})
+
 // ─── Health ───────────────────────────────────────────────────────────────────
 
 app.get('/health', async () => ({
