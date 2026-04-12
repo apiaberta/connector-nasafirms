@@ -1,4 +1,6 @@
 import Fastify from 'fastify'
+import swagger from '@fastify/swagger'
+import swaggerUi from '@fastify/swagger-ui'
 import cron from 'node-cron'
 import mongoose from 'mongoose'
 import { dataRoutes } from './routes.js'
@@ -17,6 +19,23 @@ const app = Fastify({
       : undefined
   }
 })
+
+// ─── Swagger ─────────────────────────────────────────────────────────────────
+
+await app.register(swagger, {
+  openapi: {
+    info: {
+      title:   'NASA FIRMS Connector',
+      version: '1.0.0',
+      description: 'VIIRS and MODIS satellite fire detection hotspots for Portugal'
+    },
+    servers: [{ url: `http://localhost:${PORT}` }]
+  }
+})
+
+await app.register(swaggerUi, { routePrefix: '/docs' })
+
+app.get('/swagger', async () => app.swagger())
 
 // ─── Health ───────────────────────────────────────────────────────────────────
 
