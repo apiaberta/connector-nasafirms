@@ -75,6 +75,24 @@ app.get('/meta', async () => {
   }
 })
 
+app.get('/nasafirms/meta', async () => {
+  const total   = await Hotspot.countDocuments()
+  const viirs   = await Hotspot.countDocuments({ source: 'VIIRS_SNPP' })
+  const modis   = await Hotspot.countDocuments({ source: 'MODIS' })
+
+  return {
+    service:         SERVICE_NAME,
+    version:         '1.0.0',
+    source:           'NASA FIRMS (EOSDIS)',
+    description:      'VIIRS and MODIS satellite fire detection hotspots for Portugal',
+    bbox:             'west=-9.5, south=36.9, east=-6.2, north=42.2',
+    total_hotspots:   total,
+    by_source:        { VIIRS_SNPP: viirs, MODIS: modis },
+    update_frequency: 'every 30 minutes',
+    docs:             'https://github.com/apiaberta/connector-nasafirms'
+  }
+})
+
 // ─── Data routes ─────────────────────────────────────────────────────────────
 
 await app.register(dataRoutes)
